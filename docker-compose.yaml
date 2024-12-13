@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  mongodb:
+    image: ltservices/mongodb:1.0.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    volumes:
+      - mongodb_data:/data/db
+
+  apijs:
+    image: ltservices/apijs:1.0.1
+    container_name: apijs
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://root:example@mongodb:27017/
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data:
